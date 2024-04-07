@@ -144,8 +144,8 @@ $('.Select-box-2 li').click(function () {
 		_tihs = 'https://www.bing.com/search';
 		_name = 'q';
 	} else if (_tihs == 'toutiao_s') {
-		_tihs = 'https://so.toutiao.com/search';
-		_name = 'keyword';
+		_tihs = 'https://www.perplexity.ai/search';
+		_name = '';
 	} else if (_tihs == 'so_s') {
 		_tihs = 'https://www.so.com/s';
 		_name = 'q';
