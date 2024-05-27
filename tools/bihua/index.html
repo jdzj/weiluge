@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="applicable-device" content="pc,mobile">
+	<title>在线字典 - 学汉字</title>
+	<meta name="description" content="由微录阁出品的在线字典拼音学习工具，汉字拼音、多音字、带声调，超大字体便于孩子学习。"/>
+	<meta name="keywords" content="在线字典,在线词典,zxdic,微录阁,大字典" />
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="shortcut icon" href="logo.png">
+	<style type="text/css">
+	body{font-family: 'Microsoft Yahei'; font-size: 16px;}
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	input[type="text"] {
+		height: 140px;
+		padding: 6px 12px;
+		font-size: 100px;
+		line-height: 1.42857143;
+		color: #555;
+		background-color: #fff;
+		background-image: none;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	}
+	input[type="text"]:focus {
+		border-color: #66afe9;
+		outline: 0;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	}
+	#test {width: 90%;}
+	h2 {
+		background-color: #5CACEE;
+		color: white;
+		padding: 2px 8px;
+		border-radius: 5px;
+		font-size: 50px;
+		line-height: 1.5;
+		text-shadow: 1px 1px 1px black;
+		width: 90%;
+	}
+	h2 > span {
+		color: #B10000;
+		font-size: 0.8em;
+	}
+	#test {margin-top: 10px;}
+	.loading-tip{color: #00960A;margin-bottom: 10px;}
+	.container {
+		width: 90%;
+		margin: 20px auto;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		
+		<h2>在线字典</h2>
+		<div>
+			<span></span>
+			<label><input type="radio" name="pinyin_type" value="0" checked/>带声调</label>
+			<label><input type="radio" name="pinyin_type" value="1"/>无声调</label>
+			<label><input type="radio" name="pinyin_type" value="2"/>首字母</label>
+			<label><input type="checkbox" name="polyphone"/>多音字</label>
+		</div>
+		<input type="text" id="test" value="字典" placeholder="请在这输入"/>
+		<h3>拼音：</h3>
+		<h2><div id="result"></div></h2>
+		遇到多音字在组词时可能会有错误，可勾选上面多音字。有问题请到<a href="http://log.weiluge.com/post-4.html" target="_blank">微录阁</a>反馈。</br> </br>
+	        <center><img width="25" src="logo.png"> © <a href="http://zxdic.com ">在线字典</a> <a href="/bihua/ ">汉字笔画</a></br></center>
+	</div>
+
+	<script type="text/javascript" src="dict/pinyin_dict_withtone.js"></script>
+	<script type="text/javascript" src="dict/pinyinUtil.js"></script>
+
+	<script type="text/javascript">
+	function getPinyin()
+	{
+		var value = document.getElementById('test').value;
+		var type = document.querySelector('[name="pinyin_type"]:checked').value;
+		var polyphone = document.querySelector('[name="polyphone"]').checked;
+		var result = '';
+		if(value)
+		{
+			switch(type)
+			{
+				case '0': result = pinyinUtil.getPinyin(value, ' ', true, polyphone); break;
+				case '1': result = pinyinUtil.getPinyin(value, ' ', false, polyphone); break;
+				case '2': result = pinyinUtil.getFirstLetter(value, polyphone); break;
+				default: break;
+			}
+		}
+		var html = result;
+		if(result instanceof Array)
+		{
+			html = '<ol>';
+			result.forEach(function(val)
+			{
+				html += '<li>'+val+'</li>';
+			});
+			html += '</ol>';
+		}
+		document.getElementById('result').innerHTML = html;
+	}
+	document.getElementById('test').addEventListener('input', getPinyin);
+	document.getElementsByName('polyphone')[0].addEventListener('change', function(e)
+	{
+		getPinyin();
+	});
+	document.addEventListener('change', function(e)
+	{
+		if(e.target.name === 'pinyin_type')
+		{
+			getPinyin();
+		}
+	});
+	getPinyin();
+	</script>
+</body>
+</html>
